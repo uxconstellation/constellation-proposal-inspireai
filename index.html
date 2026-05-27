@@ -102,6 +102,25 @@
     }
 
 
+    .hero-spaceship {
+      position: absolute;
+      right: 2%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42vw;
+      max-width: 580px;
+      min-width: 300px;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 0 60px rgba(254,110,54,0.15));
+      animation: float 7s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(-50%) translateY(0px); }
+      50%       { transform: translateY(-50%) translateY(-18px); }
+    }
+
     .hero-content {
       position: relative;
       z-index: 2;
@@ -562,6 +581,82 @@
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
 
+    /* CARD SELECT BUTTON */
+    .card-select-btn {
+      display: block;
+      width: calc(100% - 3.5rem);
+      margin: 0 1.75rem 1.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      font-family: 'Satoshi', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .card-select-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: rgba(254,110,54,0.06);
+    }
+
+    .card-select-btn.selected {
+      border-color: var(--orange);
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    /* SUBMIT AREA */
+    .submit-area {
+      margin-top: 3rem;
+      padding: 2rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .submit-area p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 1.25rem;
+    }
+
+    .submit-area .selected-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      min-height: 1.2em;
+    }
+
+    .submit-btn {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      border-radius: 100px;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Satoshi', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .submit-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
     .pricing-note {
       margin-top: 2.5rem;
       font-size: 0.8rem;
@@ -810,6 +905,7 @@
     <div class="hero-bg"></div>
     <img src="assets/clouds.webp" class="hero-clouds" alt="" />
     <div class="hero-ellipse"></div>
+    <img src="assets/astronaut.png" class="hero-spaceship" alt="" />
     <div class="hero-content">
       <div class="eyebrow"><span></span> InspireAI x Constellation <span></span></div>
       <h1>A website that <em>earns</em><br />your position.</h1>
@@ -847,7 +943,7 @@
   </div>
 
   <!-- 01 THE OPPORTUNITY -->
-  <section class="section section--dark">
+  <section class="section section--dark" style="padding-top: 5rem;">
     <div class="container">
       <div class="section-label">01 — The Opportunity</div>
       <div class="grid-2">
@@ -1084,7 +1180,7 @@
       <div class="pricing-grid">
 
         <!-- OPTION A: PROJECT ONLY -->
-        <div class="pricing-card">
+        <div class="pricing-card" id="card-a">
           <div class="pricing-card-head">
             <div class="pricing-tier-label">Option A</div>
             <h4>Project Only</h4>
@@ -1103,10 +1199,11 @@
               <li>50% deposit / 50% on delivery</li>
             </ul>
           </div>
+          <button class="card-select-btn" onclick="selectOption('A', 'Project Only — R55–65k')">Select Option A</button>
         </div>
 
         <!-- OPTION B: PROJECT + RETAINER (RECOMMENDED) -->
-        <div class="pricing-card recommended">
+        <div class="pricing-card recommended" id="card-b">
           <div class="recommended-badge">Recommended</div>
           <div class="pricing-card-head">
             <div class="pricing-tier-label">Option B</div>
@@ -1126,10 +1223,11 @@
               <li>Can start immediately post-launch or deferred</li>
             </ul>
           </div>
+          <button class="card-select-btn" onclick="selectOption('B', 'Project + Optional Retainer — R55–65k + R18,000/mo')">Select Option B</button>
         </div>
 
         <!-- OPTION C: HOURLY -->
-        <div class="pricing-card">
+        <div class="pricing-card" id="card-c">
           <div class="pricing-card-head">
             <div class="pricing-tier-label">Option C</div>
             <h4>Hourly Rate</h4>
@@ -1147,11 +1245,18 @@
               <li>No minimum commitment required</li>
             </ul>
           </div>
+          <button class="card-select-btn" onclick="selectOption('C', 'Hourly Rate — R850/hr')">Select Option C</button>
         </div>
 
       </div>
 
       <p class="pricing-note">All amounts in ZAR, exclusive of VAT. Phase 1 (design directions) proceeds at no cost to InspireAI. Phase 2 final fee confirmed after direction selection. 50% deposit due upon direction approval, 50% final invoice upon delivery. Payment terms: 30 days from invoice date. Post-launch retainer (Option B): monthly invoice due on receipt, month-to-month, cancellable with 30 days written notice.</p>
+
+      <div class="submit-area">
+        <div class="selected-label" id="selected-label">No option selected yet</div>
+        <p>Select an option above, then confirm your choice below. This opens a pre-filled email to Constellation.</p>
+        <button class="submit-btn" id="submit-btn" disabled onclick="submitSelection()">Confirm my selection</button>
+      </div>
     </div>
   </section>
 
@@ -1189,7 +1294,7 @@
           <tr>
             <td>Post-launch revisions beyond 2 rounds</td>
             <td><span class="badge badge--not">Not included (unless retainer active)</span></td>
-            <td>Two rounds of post-launch revisions are included in the project fee. Additional revisions beyond this are billed at R500/hr or included in the monthly retainer if Option B is active.</td>
+            <td>Two rounds of post-launch revisions are included in the project fee. Additional revisions beyond this are billed at R850/hr or included in the monthly retainer if Option B is active.</td>
           </tr>
           <tr>
             <td>Brand identity / logo design</td>
@@ -1249,52 +1354,4 @@
       </div>
 
       <div class="sla-highlight">
-        <h4>E-Signature and Execution</h4>
-        <p>The SOW and engagement letter are executed via two-signer e-sign before any work begins. Signer A: Aldo Calitz, Constellation. Signer B: Alexander Charles (or nominated authorised representative of InspireAI). Phase 1 begins upon signature. Phase 2 begins upon direction approval and receipt of the 50% deposit. Mutual confidentiality obligations are embedded in the SOW and survive termination indefinitely.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- CTA / NEXT STEPS -->
-  <section class="cta-section">
-    <div class="cta-bg"></div>
-    <img src="assets/clouds.webp" class="cta-clouds" alt="" />
-    <div class="cta-content">
-      <div class="eyebrow" style="justify-content: center;"><span></span> Next Steps <span></span></div>
-      <h2>Ready to put InspireAI<br /><em>where it belongs.</em></h2>
-      <p>Four steps from this proposal to a live site.</p>
-      <div class="steps-list">
-        <div class="step-item">
-          <div class="step-num">01</div>
-          <p>Confirm your preferred engagement option (A, B, or C) and answer the scope questions below. Constellation issues the SOW for e-sign — both parties sign before any work begins.</p>
-        </div>
-        <div class="step-item">
-          <div class="step-num">02</div>
-          <p>Phase 1 kicks off immediately after signature. Over one week, we research three design directions — mood boards, copy direction, references, and animation specs — and share them on Slack for your review.</p>
-        </div>
-        <div class="step-item">
-          <div class="step-num">03</div>
-          <p>You choose one direction. We confirm the Phase 2 fee, issue the 50% deposit invoice, and begin the design system and Lovable build. Your two feedback rounds are built into the 3–4 week build phase.</p>
-        </div>
-        <div class="step-item">
-          <div class="step-num">04</div>
-          <p>Phase 2 delivers the code export and full handoff documentation. Your WordPress developer takes it from there. Site goes live in weeks 6–8 from project start.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <img src="assets/logo-white.svg" alt="Constellation" />
-      <p>Prepared by Constellation for InspireAI &mdash; uxconstellation.com</p>
-      <p>Confidential. May 2026.</p>
-    </div>
-  </footer>
-
-</body>
-</html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        <h4>E-Sign
